@@ -2,6 +2,9 @@ package rich_bet
 
 import "github.com/LeaguesOfHoleHoleShoes/HoleHole/rich_bet/common/g-error"
 
+type Database interface {
+}
+
 func NewGame() *Game {
 	return &Game{}
 }
@@ -15,6 +18,8 @@ type GameConfig struct {
 
 type Game struct {
 	GameConfig
+
+	db Database
 }
 
 // 用户下注，记录该笔下注信息，并给他本轮的下注总额+amount
