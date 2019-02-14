@@ -6,7 +6,6 @@ import (
 	"sync"
 	"github.com/LeaguesOfHoleHoleShoes/HoleHole/log"
 	"go.uber.org/zap"
-	"github.com/hashicorp/consul/command/info"
 )
 
 type GameDB interface {

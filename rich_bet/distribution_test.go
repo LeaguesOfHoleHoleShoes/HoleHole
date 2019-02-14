@@ -7,5 +7,5 @@ import (
 )
 
 func TestDistribution_Distribute(t *testing.T) {
-	fmt.Println(uint64(math.MaxUint64))
+
 }
