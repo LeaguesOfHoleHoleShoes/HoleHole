@@ -4,7 +4,7 @@ import (
 	"gopkg.in/mgo.v2"
 	"sync"
 	"strings"
-	"github.com/inconshreveable/log15"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/log"
 )
 
 var session *mgo.Session
@@ -50,7 +50,7 @@ func ClearAllData(dbConfig *mgo.DialInfo, dbName string) {
 			}
 		}
 	} else {
-		log15.Warn("非法操作！在非测试环境下调用了清空所有数据的方法")
+		log.L.Error("非法操作！在非测试环境下调用了清空所有数据的方法")
 	}
 }
 
