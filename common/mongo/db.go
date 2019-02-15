@@ -37,14 +37,13 @@ func GetDB(dbConfig *mgo.DialInfo) *mgo.Session {
 }
 
 // 清空某个数据库下的所有数据
-func ClearAllData(dbConfig *mgo.DialInfo) {
-	if strings.Contains(dbConfig.Database, "test") {
+func ClearAllData(dbConfig *mgo.DialInfo, dbName string) {
+	if strings.Contains(dbName, "test") {
 		// 获取连接
-		tmpS := GetDB(dbConfig)
-		tmpDb := tmpS.DB(dbConfig.Database)
-		cName, _ := tmpDb.CollectionNames()
+		tmpDB := GetDB(dbConfig).DB(dbName)
+		cName, _ := tmpDB.CollectionNames()
 		for _, cn := range cName {
-			tmpDb.C(cn).DropCollection()
+			tmpDB.C(cn).DropCollection()
 		}
 	} else {
 		log15.Warn("非法操作！在非测试环境下调用了清空所有数据的方法")

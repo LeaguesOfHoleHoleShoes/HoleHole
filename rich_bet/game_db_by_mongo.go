@@ -5,6 +5,8 @@ import (
 	"gopkg.in/mgo.v2"
 	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/mongo"
 	"gopkg.in/mgo.v2/bson"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/log"
+	"go.uber.org/zap"
 )
 
 func NewGameDBByMongo(hosts []string, dbName string) *GameDBByMongo {
@@ -43,12 +45,41 @@ func (db *GameDBByMongo) GetBetsByRound(round uint64) (result []model.BetInfo) {
 	return
 }
 
-// 事务问题
 func (db *GameDBByMongo) SaveDistribution(rewards []model.Reward, jackpot model.Jackpot) error {
-	if err := db.getDB().C(db.rewardTN).Insert(rewards); err != nil {
+	rwLen := len(rewards)
+	objs := make([]interface{}, rwLen)
+	txIDs := make([]string, rwLen)
+	for i, r := range rewards {
+		objs[i] = r
+		txIDs[i] = r.TxID
+	}
+
+	rwCollection := db.getDB().C(db.rewardTN)
+	if err := rwCollection.Insert(objs...); err != nil {
+		// 插入失败则删除已插入的数据
+		if _, dErr := rwCollection.RemoveAll(bson.M{"txid": bson.M{"$in": txIDs}}); dErr != nil {
+			log.L.Error("remove insert failed rewards failed", zap.Error(dErr), zap.Error(err))
+		}
 		return err
 	}
+	//log.L.Debug("update jackpot", zap.Uint64("amount", jackpot.Amount))
 	return db.getDB().C(db.jackpotTN).Update(bson.M{"tag": jackpot.Tag}, jackpot)
+}
+
+// round必须，userAddr如果传空则不带该条件，hasBeenDrawing传<0为false、0为不带该条件、>0为true
+func (db *GameDBByMongo) GetRewardsByRound(round uint64, userAddr string, hasBeenDrawing int) (rewards []model.Reward) {
+	query := bson.M{"round": round}
+	if userAddr != "" {
+		query["useraddress"] = userAddr
+	}
+	if hasBeenDrawing > 0 {
+		query["hasbeendrawing"] = true
+	} else if hasBeenDrawing < 0 {
+		query["hasbeendrawing"] = false
+	}
+
+	db.getDB().C(db.rewardTN).Find(query).All(&rewards)
+	return
 }
 
 func (db *GameDBByMongo) GetJackpot() (result model.Jackpot) {
@@ -71,4 +102,23 @@ func (db *GameDBByMongo) migrate() {
 	db.getDB().C(db.invalidBetTN).EnsureIndex(mgo.Index{ Key: []string{"txid"}, Unique: true })
 
 	db.getDB().C(db.rewardTN).EnsureIndex(mgo.Index{ Key: []string{"txid"}, Unique: true })
+	db.getDB().C(db.rewardTN).EnsureIndex(mgo.Index{ Key: []string{"round"} })
+
+	// init jackpot
+	jcCollection := db.getDB().C(db.jackpotTN)
+	if jc, err := jcCollection.Count(); err != nil {
+		panic(err)
+	} else {
+		if jc == 0 {
+			if err = jcCollection.Insert(model.Jackpot{}); err != nil {
+				panic(err)
+			}
+		} else if jc > 1 {
+			panic("too many jackpot in db")
+		}
+	}
+}
+
+func (db *GameDBByMongo) ClearTestData() {
+	mongo.ClearAllData(db.config, db.dbName)
 }
