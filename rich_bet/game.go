@@ -66,6 +66,7 @@ func (g *Game) Bet(info model.BetInfo) error {
 		return g_error.ErrBetAmountTooBig
 	}
 
+	// 在里边检查是否存在，不存在才创建
 	return g.gDB.DoBet(info)
 }
 

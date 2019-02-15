@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/log"
 	"go.uber.org/zap"
+	"gopkg.in/mgo.v2/bson"
 )
 
 // 执行分发
@@ -62,7 +63,7 @@ func (d *distribution) Distribute() (rewards []model.Reward, jackpot model.Jackp
 
 	// 2% 平台收取
 	platformReward := lossBet * 2 / 100
-	rewards = append(rewards, model.Reward{ UserAddress: d.PlatformAddress, Amount: platformReward, Round: d.Round })
+	rewards = append(rewards, model.Reward{ TxID: bson.NewObjectId().Hex(), UserAddress: d.PlatformAddress, Amount: platformReward, Round: d.Round })
 
 	// 98% + 奖金池的奖金
 	remainReward := lossBet - platformReward + d.Jackpot.Amount
@@ -75,7 +76,7 @@ func (d *distribution) Distribute() (rewards []model.Reward, jackpot model.Jackp
 			uReward += b.Amount
 		}
 		remainForJackpot -= uReward
-		rewards = append(rewards, model.Reward{ UserAddress: b.UserAddress, Amount: uReward, Round: d.Round })
+		rewards = append(rewards, model.Reward{ TxID: b.TxID, UserAddress: b.UserAddress, Amount: uReward, Round: d.Round })
 	}
 
 	jackpot.Amount = remainForJackpot
