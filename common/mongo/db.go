@@ -19,7 +19,7 @@ func GetDB(dbConfig *mgo.DialInfo) *mgo.Session {
 	mutex.Lock()
 	defer mutex.Unlock()
 	
-	log15.Info("初始化mongo db session")
+	log.L.Info("初始化mongo db session")
 	tmpDbName := dbConfig.Database
 	// 先用admin尝试
 	dbConfig.Database = "admin"
