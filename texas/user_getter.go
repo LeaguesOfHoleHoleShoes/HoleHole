@@ -1,7 +1,7 @@
 package texas
 
 import (
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/msg_server"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/msg_server"
 	"github.com/LeaguesOfHoleHoleShoes/HoleHole/texas/abstracts"
 )
 

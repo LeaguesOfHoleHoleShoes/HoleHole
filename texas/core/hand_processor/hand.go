@@ -3,7 +3,7 @@ package hand_processor
 import (
 	"strconv"
 	"errors"
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/util"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/util"
 )
 
 //go:generate stringer -type=HandType

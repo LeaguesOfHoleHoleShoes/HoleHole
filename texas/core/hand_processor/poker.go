@@ -3,7 +3,7 @@ package hand_processor
 import (
 	"strings"
 	"go.uber.org/zap"
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/log"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/log"
 )
 
 //用于做扑克合理性判断

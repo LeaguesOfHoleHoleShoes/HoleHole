@@ -3,7 +3,7 @@ package rich_bet
 import (
 	"github.com/LeaguesOfHoleHoleShoes/HoleHole/rich_bet/model"
 	"strconv"
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/log"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/log"
 	"go.uber.org/zap"
 )
 

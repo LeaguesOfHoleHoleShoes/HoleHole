@@ -4,7 +4,7 @@ import (
 	"github.com/LeaguesOfHoleHoleShoes/HoleHole/rich_bet/common/g-error"
 	"github.com/LeaguesOfHoleHoleShoes/HoleHole/rich_bet/model"
 	"sync"
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/log"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/log"
 	"go.uber.org/zap"
 )
 

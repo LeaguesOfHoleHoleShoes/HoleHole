@@ -6,7 +6,7 @@ import (
 	"crypto/rand"
 	"go.uber.org/zap"
 	"encoding/binary"
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/log"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/log"
 )
 
 // 解析json字符串

@@ -6,7 +6,7 @@ import (
 	"time"
 	"runtime"
 	"io/ioutil"
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/util"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/util"
 )
 
 var coreNum = runtime.NumCPU()

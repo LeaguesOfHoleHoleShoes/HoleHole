@@ -8,8 +8,8 @@ import (
 	"time"
 	"github.com/stretchr/testify/assert"
 	"math/big"
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/log"
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/util"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/log"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/util"
 )
 
 const (

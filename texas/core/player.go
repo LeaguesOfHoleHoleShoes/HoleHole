@@ -3,7 +3,7 @@ package core
 import (
 	"go.uber.org/zap"
 	"github.com/LeaguesOfHoleHoleShoes/HoleHole/texas/abstracts"
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/log"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/log"
 	"github.com/LeaguesOfHoleHoleShoes/HoleHole/texas/core/hand_processor"
 )
 

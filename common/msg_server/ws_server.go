@@ -9,8 +9,8 @@ import (
 	"errors"
 	"go.uber.org/zap"
 	"sync/atomic"
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/log"
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/util"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/log"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/util"
 )
 
 var upgrader = websocket.Upgrader{} // use default options

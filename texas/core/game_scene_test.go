@@ -6,7 +6,7 @@ import (
 	"time"
 	"go.uber.org/zap"
 	"github.com/LeaguesOfHoleHoleShoes/HoleHole/texas/abstracts"
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/log"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/log"
 )
 
 func TestGame_GetScene(t *testing.T) {

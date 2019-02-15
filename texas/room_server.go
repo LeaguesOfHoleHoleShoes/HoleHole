@@ -6,11 +6,11 @@ import (
 	"sync"
 	"sync/atomic"
 	"fmt"
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/msg_server"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/msg_server"
 	"github.com/LeaguesOfHoleHoleShoes/HoleHole/texas/abstracts"
 	"github.com/LeaguesOfHoleHoleShoes/HoleHole/texas/core"
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/log"
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/util"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/log"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/util"
 )
 
 func NewRoomServer(tableCount int, tableSeatCount int, tableLevel int, srvPort int) *RoomServer {

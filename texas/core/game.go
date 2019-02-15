@@ -6,7 +6,7 @@ import (
 	"go.uber.org/zap"
 	"sort"
 	"github.com/LeaguesOfHoleHoleShoes/HoleHole/texas/abstracts"
-	"github.com/LeaguesOfHoleHoleShoes/HoleHole/log"
+	"github.com/LeaguesOfHoleHoleShoes/HoleHole/common/log"
 )
 
 var (
