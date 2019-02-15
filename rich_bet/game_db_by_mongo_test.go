@@ -20,29 +20,19 @@ type GameDBByMongoSuite struct {
 }
 
 // suite 开始时初始化
-func (s *GameDBByMongoSuite) SetUpSuite(c *check.C) {
-	s.gDB = NewGameDBByMongo([]string{"localhost"}, testDBName)
-}
+func (s *GameDBByMongoSuite) SetUpSuite(c *check.C) {}
 
 // suite 结束时做的事
 func (s *GameDBByMongoSuite) TearDownSuite(c *check.C) {}
 
 // 每一个test case 的开始初始化
 func (s *GameDBByMongoSuite) SetUpTest(c *check.C) {
-	s.gDB.ClearTestData()
+	s.gDB = NewGameDBByMongo([]string{"localhost"}, testDBName)
 }
 
 // 每一个test case 的结束是做的事
 func (s *GameDBByMongoSuite) TearDownTest(c *check.C) {
 	s.gDB.ClearTestData()
-}
-
-func (s *GameDBByMongoSuite) TestGameDBByMongo_DoBet(t *check.C) {
-	err := s.gDB.DoBet(model.BetInfo{ UserAddress: "0x123", Amount: 321, BlockHeight: 1, TxID: "123", Round: 1, BetOn: 0 })
-	assert.NoError(t, err)
-
-	err = s.gDB.DoBet(model.BetInfo{ UserAddress: "0x123", Amount: 321, BlockHeight: 1, TxID: "123", Round: 1, BetOn: 0 })
-	assert.Error(t, err)
 }
 
 func (s *GameDBByMongoSuite) TestGameDBByMongo_GetBetsByRound(t *check.C) {
@@ -61,6 +51,14 @@ func (s *GameDBByMongoSuite) TestGameDBByMongo_GetBetsByRound(t *check.C) {
 
 	bets = s.gDB.GetBetsByRound(2)
 	assert.Len(t, bets, 1)
+}
+
+func (s *GameDBByMongoSuite) TestGameDBByMongo_DoBet(t *check.C) {
+	err := s.gDB.DoBet(model.BetInfo{ UserAddress: "0x123", Amount: 321, BlockHeight: 1, TxID: "123", Round: 1, BetOn: 0 })
+	assert.NoError(t, err)
+
+	err = s.gDB.DoBet(model.BetInfo{ UserAddress: "0x123", Amount: 321, BlockHeight: 1, TxID: "123", Round: 1, BetOn: 0 })
+	assert.Error(t, err)
 }
 
 func (s *GameDBByMongoSuite) TestGameDBByMongo_SaveDistribution(t *check.C) {

@@ -96,13 +96,13 @@ func (db *GameDBByMongo) getDB() *mgo.Database {
 }
 
 func (db *GameDBByMongo) migrate() {
-	db.getDB().C(db.betInfoTN).EnsureIndex(mgo.Index{ Key: []string{"txid"}, Unique: true })
-	db.getDB().C(db.betInfoTN).EnsureIndex(mgo.Index{ Key: []string{"round"} })
+	errPanic(db.getDB().C(db.betInfoTN).EnsureIndex(mgo.Index{ Key: []string{"txid"}, Unique: true }))
+	errPanic(db.getDB().C(db.betInfoTN).EnsureIndex(mgo.Index{ Key: []string{"round"} }))
 
-	db.getDB().C(db.invalidBetTN).EnsureIndex(mgo.Index{ Key: []string{"txid"}, Unique: true })
+	errPanic(db.getDB().C(db.invalidBetTN).EnsureIndex(mgo.Index{ Key: []string{"txid"}, Unique: true }))
 
-	db.getDB().C(db.rewardTN).EnsureIndex(mgo.Index{ Key: []string{"txid"}, Unique: true })
-	db.getDB().C(db.rewardTN).EnsureIndex(mgo.Index{ Key: []string{"round"} })
+	errPanic(db.getDB().C(db.rewardTN).EnsureIndex(mgo.Index{ Key: []string{"txid"}, Unique: true }))
+	errPanic(db.getDB().C(db.rewardTN).EnsureIndex(mgo.Index{ Key: []string{"round"} }))
 
 	// init jackpot
 	jcCollection := db.getDB().C(db.jackpotTN)
@@ -110,9 +110,7 @@ func (db *GameDBByMongo) migrate() {
 		panic(err)
 	} else {
 		if jc == 0 {
-			if err = jcCollection.Insert(model.Jackpot{}); err != nil {
-				panic(err)
-			}
+			errPanic(jcCollection.Insert(model.Jackpot{}))
 		} else if jc > 1 {
 			panic("too many jackpot in db")
 		}
@@ -121,4 +119,10 @@ func (db *GameDBByMongo) migrate() {
 
 func (db *GameDBByMongo) ClearTestData() {
 	mongo.ClearAllData(db.config, db.dbName)
+}
+
+func errPanic(err error) {
+	if err != nil {
+		panic(err)
+	}
 }

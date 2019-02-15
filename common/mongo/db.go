@@ -43,7 +43,11 @@ func ClearAllData(dbConfig *mgo.DialInfo, dbName string) {
 		tmpDB := GetDB(dbConfig).DB(dbName)
 		cName, _ := tmpDB.CollectionNames()
 		for _, cn := range cName {
-			tmpDB.C(cn).DropCollection()
+			// DropCollection不会清除session中缓存的index。单元测试会反复调ClearAllData，直接会导致后边的测试无法migrate index
+			//tmpDB.C(cn).DropCollection()
+			if _, err := tmpDB.C(cn).RemoveAll(nil); err != nil {
+				panic(err)
+			}
 		}
 	} else {
 		log15.Warn("非法操作！在非测试环境下调用了清空所有数据的方法")
